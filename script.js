@@ -44,6 +44,23 @@ function sortByRichest() {
   updateDOM();
 }
 
+// Filter only millionaires
+function showMillionaires() {
+  data = data.filter(user => user.money > 1000000);
+
+  updateDOM();
+}
+
+// Calculate the total wealth
+function calculateWealth() {
+  updateDOM();
+  const wealth = data.reduce((acc, user) => (acc += user.money), 0);
+
+  const wealthEl = document.createElement('div');
+  wealthEl.innerHTML = `<h3>Total Wealth: <strong>${formatMoney(wealth)}</strong></h3>`
+  main.appendChild(wealthEl);
+}
+
 // Add new obj to data array
 function addData(obj) {
   data.push(obj);
@@ -54,15 +71,18 @@ function addData(obj) {
 // Update DOM
 // If nothing is passed to function use the data array by DEFAULT (ES2015)
 function updateDOM(providedData = data) {
+
   // Clear the main div
   main.innerHTML = '<h2><strong>Person</strong>Wealth</h2>';
 
   providedData.forEach(item => {
+
     // create a div and add a person class. style class and insert it(append child) inside the person class
     const element = document.createElement('div');
     element.classList.add('person');
     element.innerHTML = `<strong>${item.name}</strong> ${formatMoney(item.money)}`;
     main.appendChild(element);
+    
   });
 }
 
@@ -75,3 +95,5 @@ function formatMoney(number) {
 addUserBtn.addEventListener('click', getRandomUser);
 doubleBtn.addEventListener('click', doubleMoney);
 sortBtn.addEventListener('click', sortByRichest);
+showMillionairesBtn.addEventListener('click', showMillionaires);
+calculateWealthBtn.addEventListener('click', calculateWealth);
